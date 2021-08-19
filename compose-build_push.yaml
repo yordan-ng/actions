@@ -1,0 +1,33 @@
+# action.yml
+name: "Build and Publish images with docker-compose"
+author: "Yordan Golemanov"
+description: "Build containers and publish to docker hub"
+inputs:
+  version:
+    description: "Release version (tag)"
+    required: false
+    default: 'latest'
+  docker_compose:
+    description: "docker-compose.yaml file"
+    required: true
+outputs:
+  tag:
+    description: "Tag that was published"
+    value: ${{ steps.tag.outputs.semver }}
+runs:
+  using: "composite"
+  steps:
+    - id: tag
+      run: |
+        # if VERSION is not set, get it from git repo
+        VERSION="${{ inputs.version }}"
+        if [ -z "$VERSION" ]; then
+            VERSION=$(${{ github.action_path }}/src/version.sh)
+        fi
+        echo "VERSION: $VERSION"
+        echo "::set-output name=semver::$(echo $VERSION)"
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+      shell: bash
+    - id: publish
+      run: ${{ github.action_path }}/src/publish.sh $VERSION ${{ inputs.docker_compose }}
+      shell: bash
