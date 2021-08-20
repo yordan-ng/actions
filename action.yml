@@ -1,7 +1,7 @@
 # action.yml
 name: "Build and Publish images with docker-compose"
 author: "Yordan Golemanov"
-description: "Build containers and publish to docker hub"
+description: "Build containers and publish to dockerhub"
 inputs:
   version:
     description: "Release version (tag)"

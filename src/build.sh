@@ -1,6 +1,6 @@
 VERSION="$1"
 DOCKER_COMPOSE="$2"
-REPO_TOKEN="$3"
+#REPO_TOKEN="$3"
 
 echo "VERSION=$VERSION"
 echo "DOCKER_COMPOSE=$DOCKER_COMPOSE"
@@ -16,6 +16,7 @@ docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_TOKEN}
 
 # build and run the docker images
 DOCKER_ACCT=hextht APP_ENV=production  VERSION=$VERSION docker-compose build
+DOCKER_ACCT=hextht APP_ENV=production  VERSION=$VERSION docker-compose tag latest
 DOCKER_ACCT=hextht APP_ENV=production  VERSION=$VERSION docker-compose push
 
 
