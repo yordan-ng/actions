@@ -29,5 +29,5 @@ runs:
         echo "VERSION=$VERSION" >> $GITHUB_ENV
       shell: bash
     - id: publish
-      run: ${{ github.action_path }}/src/publish.sh $VERSION ${{ inputs.docker_compose }}
+      run: ${{ github.action_path }}/src/build.sh $VERSION ${{ inputs.docker_compose }}
       shell: bash
