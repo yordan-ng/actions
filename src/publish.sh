@@ -1,24 +1,36 @@
 VERSION="$1"
 DOCKER_COMPOSE="$2"
-#REPO_TOKEN="$3"
+REPO_TOKEN="$3"
 
 echo "VERSION=$VERSION"
 echo "DOCKER_COMPOSE=$DOCKER_COMPOSE"
 
 #Env
+echo "Exporting variables\n"
 APP_ENV=production
 DOCKER_ACCT=hextht
 export APP_ENV=production
 export DOCKER_ACCT=hextht
 
 # login to github
+echo "Logging to docker hub\n"
 docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_TOKEN}
+echo $?
+echo "\n"
 
 # build and run the docker images
+echo "Executing docker-compose build\n"
 DOCKER_ACCT=hextht APP_ENV=production  VERSION=$VERSION docker-compose build
+echo $?
+echo "\n"
+echo "Executing docker-compose tag"
 DOCKER_ACCT=hextht APP_ENV=production  VERSION=$VERSION docker-compose tag latest
+echo $1
+echo "\n"
+echo "Executing docker-compose push"
 DOCKER_ACCT=hextht APP_ENV=production  VERSION=$VERSION docker-compose push
-
+echo $?
+echo "\n"
 
 
 # get all built IDs
